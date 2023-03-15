@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 
 // Asynchronous function
@@ -18,18 +20,36 @@ module.exports.profile = async function(req, res){
 
 // Asynchronous function
 module.exports.update = async function(req, res){
+  if(req.user.id == req.params.id){
   try {
-    if (req.user.id == req.params.id) {
-      const user = await User.findByIdAndUpdate(req.params.id, req.body).exec();
-      return res.redirect('back');
-    } else {
-      return res.status(401).send('Unauthorized');
-    }
+  //  if (req.user.id == req.params.id) {
+      let user = await User.findById(req.params.id);
+      User.uploadedAvatar(req,res, function(err){
+        if(err){
+          console.log('***Multer Error***', err)}
+        
+        user.name = req.body.name;
+        user.email = req.body.email;
+        if(req.file){
+
+          if(user.avatar){
+            fs.unlinkSync(path.join(__dirname, '..',user.avatar));
+          }
+          user.avatar = User.avatarPath + '/' + req.file.filename;
+        }
+        user.save();
+        return res.redirect('back');
+      });
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Internal Server Error');
+    req.flash('error',err);
+    return res.redirect('back');
   }
+}else{
+  req.flash('error','Unauthorized!');
+  return res.status(401).send('Unauthorized');
 }
+}
+
 
 // render the sign up page
 module.exports.signUp = async function(req, res) {
