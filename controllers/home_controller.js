@@ -1,26 +1,30 @@
-const Post =  require('../models/post');
+const Post = require('../models/post');
+const User = require('../models/user');
 
 
-// populate of each post
-module.exports.home = async function(req, res) {
-    try {
-      const posts = await Post.find({})
+// Asynchronous function
+module.exports.home = async function(req, res){
+  try {
+    const posts = await Post.find({})
       .populate('user')
       .populate({
-        path: 'comments',
-        populate: {
-          path: 'user'
-        }
-
+          path: 'comments',
+          populate: {
+              path: 'user'
+          }
       })
       .exec();
-      return res.render('home', {
-        title: "SocialBuzz | Home",
-        posts: posts
-      });
-    } catch (err) {
-      console.error(err);
-      return res.status(500).send("Internal Server Error");
-    }
-  };
-  
+    const users = await User.find({}).exec();
+    return res.render('home', {
+      title: "SocialBuzz | Home",
+      posts:  posts,
+      all_users: users
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
+}
+
+
+// module.exports.actionName = function(req, res){}

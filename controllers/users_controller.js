@@ -1,34 +1,45 @@
 const User = require('../models/user');
 
 
+// Asynchronous function
 module.exports.profile = async function(req, res){
-   try {
-       const userId = req.cookies.user_id;
-       if (userId) {
-           const user = await User.findById(userId);
-           if (user) {
-               return res.render('user_profile', {
-                   title: 'User Profile',
-                   user: user
-               });
-           } else {
-               return res.redirect('/users/sign-in');
-           }
-       } else {
-           return res.redirect('/users/sign-in');
-       }
-   } catch (err) {
-       console.log('Error in rendering user profile page:', err);
-       return;
-   }
+  try {
+    const user = await User.findById(req.params.id).exec();
+    return res.render('user_profile', {
+      title: 'User Profile',
+      profile_user: user
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
+}
+
+
+// Asynchronous function
+module.exports.update = async function(req, res){
+  try {
+    if (req.user.id == req.params.id) {
+      const user = await User.findByIdAndUpdate(req.params.id, req.body).exec();
+      return res.redirect('back');
+    } else {
+      return res.status(401).send('Unauthorized');
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
 }
 
 // render the sign up page
 module.exports.signUp = async function(req, res) {
    try {
-     res.render('user_sign_up', {
-       title: 'SocialBuzz | Sign Up'
-     });
+    if(req.isAuthenticated()){
+      return res.redirect(`/users/profile/${req.user.id}`);
+    }
+    res.render('user_sign_up', {
+      title: 'SocialBuzz | Sign Up'
+    });
    } catch (err) {
      console.log('Error in rendering sign-up page:', err);
      return;
@@ -38,6 +49,9 @@ module.exports.signUp = async function(req, res) {
 // render the sign in page
 module.exports.signIn = async function(req, res) {
    try {
+    if(req.isAuthenticated()){
+      return res.redirect(`/users/profile/${req.user.id}`);
+    }
      res.render('user_sign_in', {
        title: 'SocialBuzz | Sign In'
      });
@@ -85,7 +99,7 @@ module.exports.createSession = async function (req, res) {
  
      // handle session creation
      res.cookie('user_id', user.id);
-     return res.redirect('/users/profile');
+     return res.redirect(`/`);
    } catch (err) {
      console.log('Error in finding user in signing in');
      return;
