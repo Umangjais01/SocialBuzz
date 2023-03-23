@@ -1,4 +1,5 @@
 // CHANGE :: create a class to toggle likes when a link is clicked, using AJAX
+console.log('jais');
 class ToggleLike{
     constructor(toggleElement){
         this.toggler = toggleElement;
@@ -10,8 +11,9 @@ class ToggleLike{
         $(this.toggler).click(function(e){
             e.preventDefault();
             let self = this;
-
-            // this is a new way of writing ajax which you might've studied, it looks like the same as promises
+         //   console.log("ajax");
+        //    console.log(  $(self).attr('href'))
+        //    // this is a new way of writing ajax which you might've studied, it looks like the same as promises
             $.ajax({
                 type: 'POST',
                 url: $(self).attr('href'),
