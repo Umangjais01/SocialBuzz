@@ -21,7 +21,7 @@ app.use(sassMiddleware({
     outputStyle: 'extended',
     prefix: '/css'
 }))
-
+//ok
 //app.use(express.urlencoded());
 app.use(bodyParser.urlencoded({ extended: true }));
 
