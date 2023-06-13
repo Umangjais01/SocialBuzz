@@ -1,31 +1,40 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-        integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <title>
-            <%= title  %>
-        </title>
-        <link rel="stylesheet" href="/css/layout.css">
-        <link rel="stylesheet" href="/css/footer.css">
-        <link rel="stylesheet" href="/css/header.css">
-     
-        
-    </head>
+<head>
+	<title><%= title %></title>
+	<link rel="stylesheet" type="text/css" href="/css/layout.css">
+</head>
+<body>
+	<header>
+		<%- include('_header'); %>
+	</header>
 
-    <body>
-        <%- include('_header'); %>
-        
-        <main id="layout-main">
-            <%- body %>
+	<main>
+		<%- body %>
+	</main>
 
-        </main>
+	<footer>
+		<%- include('_footer'); %>
+	</footer>
 
-
-        <%- include('_footer'); %>
-
-
-        
-    </body>
+	<!-- Sticky Footer -->
+	<style>
+		html,body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		main {
+			min-height: 100%;
+			margin-bottom: -50px; /* height of the footer */
+		}
+		footer {
+			height: 50px;
+			background-color: #333;
+			color: #fff;
+			text-align: center;
+			padding: 15px;
+		}
+	</style>
+</body>
 </html>

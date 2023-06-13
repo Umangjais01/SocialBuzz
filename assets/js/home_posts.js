@@ -1,4 +1,6 @@
-{   
+
+{ 
+  
     // method to submit the form data for new post using AJAX
     let createPost = function(){
         let newPostForm = $('#new-post-form');

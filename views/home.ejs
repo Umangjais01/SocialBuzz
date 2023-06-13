@@ -9,8 +9,10 @@
 
    
     <form action="/posts/create" id="new-post-form" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="Type here..."></textarea>
-        <input type="submit" value="Post">
+        <textarea name="content" cols="60" rows="3" placeholder="Type here..."></textarea>
+        <!-- <input type="submit" value="Post"> -->
+        <button class="btn btn-primary" style="font-size: larger; background-color: green;">Post
+        </button>
     </form>
     <%} %>
 
@@ -49,7 +51,7 @@
 <script src="/js/home_posts.js"></script>
 
 <!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
-<script src="/js/toggle_likes.js"></script>
+<script src="/assets/js/toggle_likes.js"></script>
 <script>
     $('.toggle-like-button').each(function(){
         let self = this;

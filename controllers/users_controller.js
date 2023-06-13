@@ -94,7 +94,7 @@ module.exports.create = async function(req, res) {
      }
  
      const newUser = await User.create(req.body);
-     return res.redirect('/users/sign-in');
+     return res.redirect('/users/sign-up');
    } catch (err) {
      console.log('Error in finding or creating user in signup', err);
      return;
