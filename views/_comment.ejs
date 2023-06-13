@@ -1,0 +1,36 @@
+<style>
+  .like-heart{
+    color: rgba(212, 15, 15, 0.844);
+  }
+</style>
+  <ul>
+    <li>
+      <div>
+      
+        <p class="card-text"><%= comment.content %></p>
+        <small>by - <%= comment.user.name %></small>
+        
+        <small>
+          <% if (locals.user) { %>
+          <a class="like-heart" data-likes="<%= comment.likes.length %>"
+            href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
+            <i class="fas fa-heart"></i>
+            <%= comment.likes.length %> Likes
+          </a>
+          <% } else { %>
+          <%= comment.likes.length %> Likes
+          <% } %>
+        </small>
+        
+        <% if (locals.user && locals.user.id == comment.user){ %>
+          <small class="float-end" style="padding-left: 10%;">
+            <a href="/comments/destroy/<%=comment.id %>" class="text-danger">
+              <button class="btn btn-primary" style="font-size: xx-small;">Delete
+              </button>
+            </a>
+          </small>
+          <% } %>
+      </div>
+    </li>
+  </ul>
+  
